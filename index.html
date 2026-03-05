@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#d4af37">
+    <meta name="description" content="MASHA Professional Piano - Interactive web-based piano with MP3 samples and Web Audio synthesis">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MASHA Piano">
+    <title>MASHA Professional Piano Masha 26 (PPM 26)</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="workstation-body">
+        <!-- Top Panel with Logo and Branding -->
+        <div class="top-section">
+            <div class="brand-plate">
+                <img src="logo.svg" alt="MASHA Logo" class="logo-img">
+                <h1>MASHA</h1>
+                <h2>Professional Piano Masha 26 (PPM 26)</h2>
+                <p>Web-Based Interactive Piano Workstation</p>
+            </div>
+        </div>
+
+        <!-- Main Control Panel -->
+        <div class="control-section">
+            <!-- Left Section: Voices -->
+            <div class="control-group voice-section">
+                <div class="section-label">VOICES</div>
+                <select id="voice-select" class="control-select">
+                    <option value="grandPiano">Grand Piano</option>
+                    <option value="pianoWarm">Warm Piano</option>
+                    <option value="brightnePiano">Bright Piano</option>
+                    <option value="electricPiano">Electric Piano</option>
+                    <option value="rhodes">Rhodes Piano</option>
+                    <option value="harpsichord">Harpsichord</option>
+                    <option value="organ">Organ</option>
+                    <option value="strings">Strings</option>
+                    <option value="pad">Pad/Synth</option>
+                    <option value="vibraphone">Vibraphone</option>
+                </select>
+            </div>
+
+            <!-- Center Left: Effects -->
+            <div class="control-group effects-section">
+                <div class="section-label">EFFECTS</div>
+                <div class="effect-controls">
+                    <div class="control-item">
+                        <label>Reverb</label>
+                        <input type="range" id="reverb-control" min="0" max="100" value="50" class="slider">
+                        <span id="reverb-value">50%</span>
+                    </div>
+                    <div class="control-item">
+                        <label>Chorus</label>
+                        <input type="range" id="chorus-control" min="0" max="100" value="0" class="slider">
+                        <span id="chorus-value">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center: Master Controls -->
+            <div class="control-group master-section">
+                <div class="section-label">MASTER</div>
+                <div class="master-controls">
+                    <div class="control-item">
+                        <label>Volume</label>
+                        <div class="volume-knob" id="volume-knob">
+                            <div class="indicator"></div>
+                        </div>
+                        <span id="volume-value">70%</span>
+                    </div>
+                    <div class="control-item">
+                        <label>Tempo (BPM)</label>
+                        <input type="number" id="tempo-bpm" min="40" max="240" value="120" class="number-input">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center Right: Metronome & Transpose -->
+            <div class="control-group rhythm-section">
+                <div class="section-label">METRONOME</div>
+                <div class="rhythm-controls">
+                    <button id="metronome-btn" class="control-btn">START</button>
+                    <div class="tempo-display">
+                        <span id="tempo-display">120</span>
+                        <span class="unit">BPM</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Section: Transpose -->
+            <div class="control-group transpose-section">
+                <div class="section-label">TRANSPOSE</div>
+                <div class="transpose-controls">
+                    <button id="transpose-down" class="transpose-btn">-</button>
+                    <div class="transpose-display">
+                        <span id="transpose-value">0</span>
+                    </div>
+                    <button id="transpose-up" class="transpose-btn">+</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Controls Row -->
+        <div class="control-section secondary-controls">
+            <div class="control-group">
+                <div class="section-label">BEATS</div>
+                <select id="beat-select" class="control-select">
+                    <option value="none">None</option>
+                    <option value="rock">Rock</option>
+                    <option value="amapiano">Amapiano</option>
+                    <option value="seben">Seben</option>
+                    <option value="worship">Worship</option>
+                    <option value="afrobeats">Afro Beats</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <div class="section-label">POWER</div>
+                <button id="power-off" class="control-btn">POWER OFF</button>
+                <button id="power-on" class="control-btn">POWER ON</button>
+            </div>
+
+            <div class="control-group">
+                <div class="section-label">MODES</div>
+                <button id="mode-single" class="control-btn">Single Row</button>
+                <button id="mode-dual" class="control-btn">Dual Row</button>
+                <button id="mode-2p" class="control-btn">Two Player</button>
+            </div>
+
+            <div class="control-group">
+                <div class="section-label">SUSTAIN</div>
+                <button id="sustain-btn" class="control-btn">Sustain Off</button>
+            </div>
+
+            <div class="control-group">
+                <div class="section-label">RECORD</div>
+                <button id="record-start" class="control-btn">Record</button>
+                <button id="record-stop" class="control-btn">Stop</button>
+                <button id="record-play" class="control-btn">Play</button>
+            </div>
+        </div>
+
+        <!-- Display / Status Area -->
+        <div class="display-panel">
+            <div class="display-content">
+                <span class="status-label">Keys Played:</span>
+                <span id="keyCount" class="status-value">0</span>
+                <span class="separator">|</span>
+                <span class="status-label">Voice:</span>
+                <span id="voice-display" class="status-value">Grand Piano</span>
+            </div>
+        </div>
+
+        <!-- Keyboard -->
+        <div class="keyboard-container">
+            <div class="keyboard-scroll-controls">
+                <button id="scroll-left" class="control-btn">◀</button>
+                <button id="scroll-right" class="control-btn">▶</button>
+            </div>
+            <div class="piano-keyboard" id="keyboard">
+                <!-- Keys will be dynamically generated -->
+            </div>
+        </div>
+
+        <!-- Bottom Panel: Info -->
+        <div class="bottom-panel">
+            <div class="keyboard-label">88-Key Weighted Hammer Action Keyboard</div>
+            <div class="footer-info">
+                Press A-Z keys to play • Select voices from dropdown • Adjust effects in real-time
+            </div>
+        </div>
+    </div>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js').then(reg => {
+                    console.log('[App] Service Worker registered successfully:', reg);
+                }).catch(err => {
+                    console.warn('[App] Service Worker registration failed:', err);
+                });
+            });
+        }
+    </script>
+
+    <script src="js/piano.js"></script>
+</body>
+</html>
